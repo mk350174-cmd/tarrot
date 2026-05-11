@@ -38,16 +38,17 @@ mypy .
 **Modular Monolith** — modules enforce domain boundaries but share a single process and database connection.
 
 ```
-api/              ← FastAPI routers and request/response schemas
+api/v1/           ← FastAPI versioned routers and request/response schemas
 core/             ← Config, database session factory, shared middleware
 services/
   astronomy/      ← Deterministic Swiss Ephemeris calculations (sole source of astronomical truth)
   ai_persona/     ← LLM interpretive layer (Claude API); reads chart data, never computes it
+  rituals/        ← Ritual timing and ceremonial calendar derived from pre-computed astronomy data
 models/           ← SQLAlchemy ORM models and Pydantic schemas
 tests/            ← pytest suites mirroring the above structure
 ```
 
-**Data flow:** HTTP request → `api/` router → service layer → (Swiss Ephemeris OR LLM) → Pydantic response
+**Data flow:** HTTP request → `api/v1/` router → service layer → (Swiss Ephemeris OR LLM) → Pydantic response
 
 **Database:** Supabase/PostgreSQL. Row-Level Security (RLS) is enforced at the PostgreSQL level for all `birth_profiles` rows. Never use the Supabase service-role key in user-facing code paths; always use the anon/user-scoped key so RLS applies.
 
@@ -61,6 +62,7 @@ These are non-negotiable across all code, comments, docstrings, and logs:
 |-----------|----------|-------|
 | Planet | **Yultuz** | Turkic for "star"; used for all planetary bodies |
 | Mercury | **Arzu Tilek** | |
+| Venus | **Altun Yultuz** | Turkic for "golden star" |
 | Sun | **Kun** | |
 | Moon | **Ay** | |
 
@@ -76,7 +78,7 @@ Use Shamanic and Turkic metaphors in docstrings and logic comments — e.g., *"t
 - Aspect angles or orbs
 - Any degree/minute astronomical value
 
-All such values originate in `services/astronomy/ephemeris.py` and are passed as pre-computed data into `services/ai_persona/`.
+All such values originate in `services/astronomy/ephemeris.py` and are passed as pre-computed data into `services/ai_persona/` and `services/rituals/`.
 
 ---
 

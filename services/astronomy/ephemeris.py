@@ -15,8 +15,8 @@ from core.config import settings
 YULTUZ: dict[str, int] = {
     "Kun": swe.SUN,          # Sun / Kun
     "Ay": swe.MOON,           # Moon / Ay
-    "Arzu Tilek": swe.MERCURY, # Mercury / Arzu Tilek
-    "Shulpan": swe.VENUS,     # Venus / Shulpan
+    "Arzu Tilek": swe.MERCURY,   # Mercury / Arzu Tilek
+    "Altun Yultuz": swe.VENUS,  # Venus / Altun Yultuz ("golden star")
     "Mangys": swe.MARS,       # Mars / Mangys
     "Erkazar": swe.JUPITER,   # Jupiter / Erkazar
     "Zuhre": swe.SATURN,      # Saturn / Zuhre

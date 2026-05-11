@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from api.routes import health
+from api.v1 import health
 
 app = FastAPI(
     title="Tarrot — The Sky-Reader",
@@ -8,4 +8,4 @@ app = FastAPI(
     version="0.1.0",
 )
 
-app.include_router(health.router)
+app.include_router(health.router, prefix="/api/v1")
