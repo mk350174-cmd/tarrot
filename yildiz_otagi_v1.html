@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html class="dark" lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yıldız Otağı — Tüngür Oracle</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "surface": "#131314", "surface-dim": "#131314",
+        "surface-container-lowest": "#0e0e0f", "surface-container-low": "#1c1b1c",
+        "surface-container": "#201f20", "surface-container-high": "#2a2a2b",
+        "surface-container-highest": "#353435", "surface-bright": "#3a393a",
+        "surface-variant": "#353435", "background": "#131314",
+        "on-surface": "#e5e2e2", "on-surface-variant": "#c6c6cc",
+        "on-background": "#e5e2e2", "inverse-surface": "#e5e2e2",
+        "inverse-on-surface": "#313031", "outline": "#909096",
+        "outline-variant": "#45464b", "surface-tint": "#c3c6d3",
+        "primary": "#c3c6d3", "on-primary": "#2c303a",
+        "primary-container": "#0a0e17", "on-primary-container": "#777b87",
+        "inverse-primary": "#5a5e69", "primary-fixed": "#dfe2ef",
+        "primary-fixed-dim": "#c3c6d3", "on-primary-fixed": "#181b25",
+        "on-primary-fixed-variant": "#434751",
+        "secondary": "#d3beeb", "on-secondary": "#38294d",
+        "secondary-container": "#524267", "on-secondary-container": "#c4b0dd",
+        "secondary-fixed": "#eddcff", "secondary-fixed-dim": "#d3beeb",
+        "on-secondary-fixed": "#231437", "on-secondary-fixed-variant": "#4f4065",
+        "tertiary": "#d8c3af", "on-tertiary": "#3b2e20",
+        "tertiary-container": "#160c03", "on-tertiary-container": "#8a7867",
+        "tertiary-fixed": "#f5dfca", "tertiary-fixed-dim": "#d8c3af",
+        "on-tertiary-fixed": "#25190d", "on-tertiary-fixed-variant": "#534435",
+        "error": "#ffb4ab", "on-error": "#690005",
+        "error-container": "#93000a", "on-error-container": "#ffdad6",
+        "night-sky": "#0A0F24", "antique-gold": "#D4AF37", "amber-glow": "#FFBF00"
+      },
+      borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+      spacing: {
+        "xs": "4px", "sm": "8px", "md": "16px", "lg": "24px",
+        "xl": "32px", "xxl": "48px", "unit": "8px",
+        "gutter-mobile": "16px", "margin-mobile": "20px"
+      },
+      fontFamily: {
+        "display-lg": ["Playfair Display"], "headline-lg": ["Playfair Display"],
+        "headline-lg-mobile": ["Playfair Display"], "headline-md": ["Playfair Display"],
+        "body-lg": ["Montserrat"], "body-md": ["Montserrat"],
+        "label-lg": ["Montserrat"], "label-sm": ["Montserrat"]
+      },
+      fontSize: {
+        "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+        "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "500" }],
+        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+        "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600" }],
+        "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "500" }]
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+  #app { position: fixed; inset: 0; max-width: 430px; left: 0; right: 0; margin: 0 auto; background: #131314; overflow: hidden; }
+  [data-screen] { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  [data-screen].active { opacity: 1; pointer-events: auto; }
+  .texture-overlay { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.04"/%3E%3C/svg%3E'); pointer-events: none; }
+  .vignette { background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%); pointer-events: none; }
+  .glass-panel { background: rgba(18,18,18,0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(216,195,175,0.25); }
+  .glow-gold { box-shadow: 0 0 15px -5px rgba(216,195,175,0.6); }
+  .glow-fire { box-shadow: 0 0 20px -5px rgba(255,180,171,0.4); }
+  .gold-stitch { border: 1px dashed rgba(216,195,175,0.3); }
+  .gold-border { border: 1px solid rgba(216,195,175,0.3); }
+  .gold-border-active { border: 1px solid rgba(216,195,175,0.8); box-shadow: 0 0 15px -5px rgba(216,195,175,0.5); }
+  .parchment-bg { background-color: #f4ecd8; }
+  .nav-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:4px 8px; font-size:11px; line-height:16px; letter-spacing:0.05em; font-weight:600; color: #c6c6cc; opacity:0.6; transition: all 0.2s; cursor:pointer; border:none; background:none; font-family:'Montserrat',sans-serif; }
+  .nav-btn.active { color:#d8c3af; opacity:1; background:rgba(82,66,103,0.4); border-radius:0.75rem; padding:4px 16px; border:1px solid rgba(211,190,235,0.2); transform: translateY(-6px); }
+  .nav-btn .material-symbols-outlined { font-size: 22px; }
+  .screen-header { position: sticky; top: 0; z-index: 40; background: rgba(19,19,20,0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(69,70,75,0.3); display:flex; justify-content:space-between; align-items:center; padding: 0 20px; height: 64px; }
+  .pb-nav { padding-bottom: 96px; }
+  .noise-overlay { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; }
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+
+<div id="app">
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 1: home — Yeryüzü Dashboard
+═══════════════════════════════════════════════ -->
+<div data-screen="home">
+  <div class="parchment-section" style="background-image:radial-gradient(circle at 50% 50%,rgba(216,195,175,0.05) 0%,transparent 70%);">
+    <header class="screen-header shadow-[0_0_15px_rgba(195,198,211,0.1)]">
+      <button class="text-primary active:scale-95 transition-transform"><span class="material-symbols-outlined">menu</span></button>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary-fixed-dim uppercase tracking-widest">Yeryüzü</h1>
+      <button class="text-primary active:scale-95 transition-transform"><span class="material-symbols-outlined">forest</span></button>
+    </header>
+    <main class="pt-6 pb-nav px-5 relative flex flex-col items-center" style="min-height: calc(100vh - 64px);">
+      <div class="absolute left-1/2 top-0 bottom-0 w-px gold-stitch -translate-x-1/2 z-0 opacity-50"></div>
+      <!-- Oracle Reading Card -->
+      <section class="w-full bg-surface-container/80 backdrop-blur-xl rounded-xl p-6 mb-8 border border-secondary/30 relative z-10 cursor-pointer" onclick="pushAndShow('oracle-reading')" style="box-shadow:0 0 20px -5px rgba(211,190,235,0.2);">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-headline-md text-headline-md text-secondary">Tüngür Oracle</h2>
+          <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+        </div>
+        <div class="h-32 w-full rounded-lg bg-surface-container-highest/50 border border-outline-variant/50 flex items-center justify-center">
+          <button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-label-lg text-label-lg border border-secondary/40 active:scale-95 transition-transform">
+            Begin Reading
+          </button>
+        </div>
+      </section>
+      <!-- Kürek Kemiği Widget -->
+      <section class="w-full bg-surface-container-high/80 backdrop-blur-xl rounded-xl p-6 mb-8 border border-tertiary/30 gold-stitch relative z-10 glow-fire" style="background:linear-gradient(135deg,rgba(216,195,175,0.1) 0%,rgba(83,68,53,0.2) 100%);">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-headline-md text-headline-md text-tertiary">Kürek Kemiği</h2>
+          <span class="material-symbols-outlined text-error" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
+        </div>
+        <div class="h-40 w-full rounded-lg bg-surface-container-highest/50 border border-outline-variant/50 flex items-center justify-center">
+          <button onclick="pushAndShow('scapulimancy-summon')" class="bg-tertiary-container/80 text-on-tertiary-container px-6 py-2 rounded-full font-label-lg text-label-lg border border-tertiary/40 backdrop-blur-sm active:scale-95 transition-transform">
+            Commence Ritual
+          </button>
+        </div>
+      </section>
+      <!-- Dolunay -->
+      <section class="w-full bg-surface-container/60 rounded-xl p-4 mb-8 border border-primary/20 relative z-10 cursor-pointer" onclick="pushAndShow('full-moon')">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1;">brightness_3</span>
+          <div>
+            <h3 class="font-label-lg text-label-lg text-on-surface">Dolunay Niyet Çemberi</h3>
+            <p class="font-label-sm text-label-sm text-on-surface-variant">Full Moon Intention Circle</p>
+          </div>
+          <span class="material-symbols-outlined text-on-surface-variant ml-auto">chevron_right</span>
+        </div>
+      </section>
+      <!-- 12-Animal Calendar -->
+      <section class="w-full relative z-10">
+        <h3 class="font-label-lg text-label-lg text-primary-fixed-dim uppercase tracking-widest text-center mb-6 bg-background/80 inline-block px-4 py-1 rounded-full relative left-1/2 -translate-x-1/2 border border-outline-variant/30">Cycle of the Steppe</h3>
+        <div class="space-y-4">
+          <article class="bg-surface-container/90 backdrop-blur-md rounded-xl p-4 border border-tertiary/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)] ml-4 mr-0 relative cursor-pointer" onclick="pushAndShow('talisman-reveal')">
+            <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-tertiary border-4 border-background z-20"></div>
+            <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-px bg-tertiary/50 z-10"></div>
+            <div class="flex justify-between items-start">
+              <div><h4 class="font-headline-md text-headline-md text-on-surface">Pars</h4>
+              <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Snow Leopard / Mars</p></div>
+              <span class="material-symbols-outlined text-tertiary">pets</span>
+            </div>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-2">A period of swift action and solitary contemplation. The ancient tracks guide toward hidden truths.</p>
+          </article>
+          <article class="bg-surface-container/90 backdrop-blur-md rounded-xl p-4 border border-tertiary/20 shadow-[0_4px_20px_rgba(0,0,0,0.4)] mr-4 ml-0 relative">
+            <div class="absolute -right-6 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-surface-variant border-4 border-background z-20"></div>
+            <div class="absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-px bg-tertiary/50 z-10"></div>
+            <div class="flex justify-between items-start flex-row-reverse text-right">
+              <div><h4 class="font-headline-md text-headline-md text-on-surface">Ulu Geyik</h4>
+              <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Great Stag / Jupiter</p></div>
+              <span class="material-symbols-outlined text-outline">forest</span>
+            </div>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-2 text-right">Wisdom roots deeply. The antlers reach for the upper realm, drawing down celestial favor.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 2: upper-world — Üst Dünya Natal Wheel
+═══════════════════════════════════════════════ -->
+<div data-screen="upper-world" style="background:#0a0e17;">
+  <div class="fixed-inset-texture pointer-events-none absolute inset-0 texture-overlay z-0"></div>
+  <div class="pointer-events-none absolute inset-0 vignette z-0"></div>
+  <div class="pointer-events-none absolute inset-0 z-0" style="background:radial-gradient(circle at 50% 50%,rgba(212,175,55,0.05) 0%,transparent 60%);"></div>
+  <header class="screen-header shadow-[0_0_20px_rgba(0,0,0,0.5)] z-40">
+    <button class="text-on-surface-variant hover:text-tertiary-fixed-dim transition-colors active:scale-95 p-2"><span class="material-symbols-outlined">menu</span></button>
+    <h1 class="font-headline-lg text-headline-lg text-tertiary drop-shadow-[0_0_10px_rgba(216,195,175,0.5)]">Tüngür Oracle</h1>
+    <button class="text-on-surface-variant hover:text-tertiary-fixed-dim transition-colors active:scale-95 p-2"><span class="material-symbols-outlined">account_circle</span></button>
+  </header>
+  <main class="relative z-10 pt-6 pb-nav px-4 flex flex-col gap-8 max-w-lg mx-auto" style="min-height:calc(100vh - 64px);">
+    <section class="text-center space-y-2">
+      <h2 class="font-headline-md text-headline-md text-tertiary">Upper World</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant">The Celestial Reflection</p>
+    </section>
+    <section class="glass-panel rounded-xl p-6 relative flex flex-col items-center justify-center" style="min-height:420px;">
+      <div class="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%]" style="background:radial-gradient(circle,rgba(255,191,0,0.05) 0%,transparent 70%);"></div>
+      </div>
+      <div class="relative w-72 h-72 rounded-full border border-tertiary/40 flex items-center justify-center">
+        <svg class="absolute inset-0 w-full h-full drop-shadow-[0_0_5px_rgba(212,175,55,0.5)]" viewBox="0 0 100 100">
+          <line x1="20" y1="20" x2="80" y2="80" stroke="#D4AF37" stroke-width="0.5" opacity="0.6"/>
+          <line x1="50" y1="10" x2="80" y2="60" stroke="#D4AF37" stroke-width="0.5" opacity="0.4"/>
+          <line x1="10" y1="50" x2="70" y2="20" stroke="#D4AF37" stroke-width="0.5" opacity="0.5"/>
+        </svg>
+        <div class="absolute w-full h-full border border-tertiary/20 rounded-full" style="animation:spin 120s linear infinite;">
+          <span class="material-symbols-outlined absolute top-2 left-1/2 -translate-x-1/2 text-tertiary text-sm">pets</span>
+          <span class="material-symbols-outlined absolute bottom-2 left-1/2 -translate-x-1/2 text-tertiary text-sm">cruelty_free</span>
+        </div>
+        <div class="absolute w-56 h-56 border border-tertiary/30 rounded-full flex items-center justify-center">
+          <div class="w-full h-full border-t border-tertiary/20 rounded-full"></div>
+        </div>
+        <div class="absolute top-12 right-16 flex flex-col items-center">
+          <div class="w-3 h-3 bg-tertiary rounded-full glow-gold"></div>
+          <span class="font-label-sm text-label-sm text-tertiary mt-1">Arzu Tilek</span>
+        </div>
+        <div class="absolute bottom-16 left-12 flex flex-col items-center">
+          <div class="w-4 h-4 rounded-full" style="background:#fffbc8;box-shadow:0 0 8px rgba(255,251,200,0.8);"></div>
+          <span class="font-label-sm text-label-sm text-tertiary mt-1">Altun Yultuz</span>
+        </div>
+        <div class="absolute w-8 h-8 rounded-full border-2 border-tertiary glow-gold flex items-center justify-center bg-surface-container/80 z-10">
+          <span class="material-symbols-outlined text-tertiary" style="font-variation-settings:'FILL' 1;">star</span>
+        </div>
+      </div>
+    </section>
+    <section class="glass-panel rounded-xl p-6 flex flex-col gap-4">
+      <h3 class="font-headline-md text-headline-md text-tertiary text-center">Beş Unsur</h3>
+      <p class="font-label-sm text-label-sm text-on-surface-variant text-center opacity-80">Elemental Soul Balance</p>
+      <div class="flex justify-between items-end h-32 px-4 border-b border-tertiary/20 pb-2">
+        <div class="flex flex-col items-center gap-2 w-1/5 cursor-pointer">
+          <div class="w-1 rounded-t-full" style="height:60%;background:rgba(147,197,253,0.6);box-shadow:0 0 8px rgba(147,197,253,0.6);"></div>
+          <span class="font-label-sm text-label-sm text-tertiary">Gök</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-1/5 cursor-pointer">
+          <div class="w-1 rounded-t-full" style="height:80%;background:rgba(248,113,113,0.6);box-shadow:0 0 8px rgba(248,113,113,0.6);"></div>
+          <span class="font-label-sm text-label-sm text-tertiary">Od</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-1/5 cursor-pointer">
+          <div class="w-1 rounded-t-full" style="height:40%;background:rgba(74,222,128,0.6);box-shadow:0 0 8px rgba(74,222,128,0.6);"></div>
+          <span class="font-label-sm text-label-sm text-tertiary">Yer</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-1/5 cursor-pointer">
+          <div class="w-[6px] rounded-t-sm" style="height:90%;background:linear-gradient(180deg,#e0e0e0,#888 40%,#fff 50%,#555 60%,#a0a0a0);box-shadow:0 0 10px rgba(255,255,255,0.5);"></div>
+          <span class="font-label-sm text-label-sm text-tertiary font-bold">Temür</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-1/5 cursor-pointer">
+          <div class="w-1 rounded-t-full" style="height:50%;background:rgba(34,211,238,0.6);box-shadow:0 0 8px rgba(34,211,238,0.6);"></div>
+          <span class="font-label-sm text-label-sm text-tertiary">Su</span>
+        </div>
+      </div>
+    </section>
+    <div class="h-4"></div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 3: lower-world — Alt Dünya Gölge Çalışması
+═══════════════════════════════════════════════ -->
+<div data-screen="lower-world" style="background:#000;background-image:radial-gradient(circle at center,transparent 30%,rgba(139,0,0,0.15) 80%,rgba(0,0,0,0.9) 100%);">
+  <header class="screen-header" style="border-bottom:1px solid rgba(139,0,0,0.4);background:transparent;">
+    <button onclick="goBack()" class="text-tertiary hover:text-tertiary-fixed-dim active:scale-95 transition-colors">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <h1 class="font-headline-md text-headline-md text-tertiary tracking-widest uppercase" style="font-family:'Playfair Display';">Shadow Work</h1>
+    <div class="w-6"></div>
+  </header>
+  <main class="px-5 py-8 flex flex-col items-center gap-8 pb-nav" style="min-height:calc(100vh - 64px);">
+    <div class="w-full max-w-[320px] aspect-[2/3] relative flex flex-col items-center justify-center p-6 shadow-[0_0_30px_rgba(0,0,0,0.8)]" style="background:#121212;border:4px solid #8b7355;">
+      <div class="relative w-full h-full flex items-center justify-center border border-tertiary/20 p-4">
+        <div class="absolute bottom-4 text-center bg-black/60 backdrop-blur-sm px-4 py-2 border border-tertiary/30 w-[90%]">
+          <h2 class="font-label-lg text-label-lg text-error uppercase tracking-widest">Reversed</h2>
+          <p class="font-headline-md text-headline-md text-tertiary mt-1">Transformation</p>
+        </div>
+        <div class="w-full h-full flex items-center justify-center">
+          <svg viewBox="0 0 200 280" class="w-full h-full opacity-30">
+            <path d="M100,20 Q140,60 130,100 Q120,140 150,180 Q170,210 140,240 Q120,260 100,250 Q80,260 60,240 Q30,210 50,180 Q80,140 70,100 Q60,60 100,20" fill="none" stroke="#d8c3af" stroke-width="1"/>
+            <ellipse cx="100" cy="140" rx="40" ry="60" fill="none" stroke="rgba(216,195,175,0.3)" stroke-width="0.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="w-full bg-black/40 backdrop-blur-xl border border-tertiary/20 p-6 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+      <h3 class="font-headline-md text-headline-md text-tertiary mb-4 border-b border-tertiary/20 pb-2">Karmic Cycle</h3>
+      <ul class="space-y-2 text-on-surface-variant font-body-md">
+        <li class="flex items-start"><span class="text-tertiary mr-2 text-xs mt-1">▶</span><span>An old cycle refuses to die. You are gripping the shed skin.</span></li>
+        <li class="flex items-start"><span class="text-tertiary mr-2 text-xs mt-1">▶</span><span>The resistance to pain is causing more suffering than the release.</span></li>
+        <li class="flex items-start"><span class="text-tertiary mr-2 text-xs mt-1">▶</span><span>Descend further. Acknowledge the decay to fertilize the new root.</span></li>
+      </ul>
+    </div>
+    <button class="w-full py-5 font-headline-md text-headline-md tracking-widest uppercase flex items-center justify-center border-t-2 active:opacity-80 transition-opacity" style="background:#2b0a0a;color:#d8c3af;border-color:#8b0000;box-shadow:inset 0 0 20px rgba(139,0,0,0.8),0 0 10px rgba(139,0,0,0.4);">
+      Confront the Shadow
+    </button>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 4: oracle-reading — Tüngür Oracle Ritual
+═══════════════════════════════════════════════ -->
+<div data-screen="oracle-reading" style="background:radial-gradient(circle at center,#1e102d 0%,#131314 100%);">
+  <div class="fixed-inset-texture pointer-events-none absolute inset-0" style="background-image:url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 10h-10l5-10zm0 60l5-10h-10l5 10zM0 30l10-5v10L0 30zm60 0l-10-5v10l10-5z' fill='%23d8c3af' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\");"></div>
+  <div class="pointer-events-none absolute inset-0" style="box-shadow:inset 0 0 150px rgba(0,0,0,0.9);"></div>
+  <!-- Particles -->
+  <div class="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+    <div class="absolute w-0.5 h-0.5 rounded-full bg-amber-glow opacity-60" style="top:20%;left:15%;filter:blur(1px);"></div>
+    <div class="absolute w-0.5 h-0.5 rounded-full bg-tertiary opacity-40" style="top:60%;left:80%;filter:blur(2px);"></div>
+    <div class="absolute w-1 h-1 rounded-full bg-amber-glow opacity-70" style="top:85%;left:30%;filter:blur(1px);"></div>
+    <div class="absolute w-0.5 h-0.5 rounded-full bg-tertiary opacity-50" style="top:10%;left:70%;filter:blur(1px);"></div>
+  </div>
+  <header class="screen-header z-50 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+    <button onclick="goBack()" class="material-symbols-outlined text-tertiary hover:text-tertiary-fixed-dim active:scale-95">arrow_back</button>
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-tertiary" style="font-variation-settings:'FILL' 1;">nature_people</span>
+      <h1 class="font-headline-lg text-headline-lg text-tertiary drop-shadow-[0_0_10px_rgba(216,195,175,0.5)]">Tüngür Oracle</h1>
+    </div>
+    <button class="material-symbols-outlined text-tertiary hover:text-tertiary-fixed-dim active:scale-95">account_circle</button>
+  </header>
+  <main class="flex-1 flex flex-col items-center justify-center px-5 py-8 relative z-20 pb-nav" style="min-height:calc(100vh - 64px);">
+    <div class="absolute w-[400px] h-[400px] bg-tertiary/5 rounded-full pointer-events-none" style="filter:blur(120px);"></div>
+    <div class="max-w-sm w-full">
+      <div class="text-center mb-8">
+        <h2 class="font-headline-md text-headline-md text-tertiary uppercase tracking-widest mb-1">Spiritual Alignment</h2>
+        <p class="font-label-sm text-label-sm text-on-surface-variant/80">THE SHAMANIC KUMALAK SPREAD</p>
+      </div>
+      <div class="grid grid-cols-3 gap-4 place-items-center">
+        <!-- Facedown cards -->
+        <div class="relative w-full aspect-[2/3] max-w-[140px] group">
+          <div class="absolute inset-0 bg-surface-container/60 backdrop-blur-xl rounded-xl border border-tertiary/30 shadow-2xl overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-4 border border-tertiary/20 flex items-center justify-center bg-surface-dim overflow-hidden">
+              <div class="absolute inset-0 opacity-20" style="background-image:repeating-linear-gradient(45deg,#d8c3af 0,#d8c3af 1px,transparent 0,transparent 50%);background-size:10px 10px;"></div>
+              <span class="material-symbols-outlined text-tertiary/40 text-4xl" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-2 h-2 rounded-full bg-tertiary/20" style="box-shadow:0 0 10px #d8c3af;"></div>
+        <div class="relative w-full aspect-[2/3] max-w-[140px] group">
+          <div class="absolute inset-0 bg-surface-container/60 backdrop-blur-xl rounded-xl border border-tertiary/30 shadow-2xl overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-4 border border-tertiary/20 flex items-center justify-center bg-surface-dim overflow-hidden">
+              <div class="absolute inset-0 opacity-20" style="background-image:repeating-linear-gradient(-45deg,#d8c3af 0,#d8c3af 1px,transparent 0,transparent 50%);background-size:10px 10px;"></div>
+              <span class="material-symbols-outlined text-tertiary/40 text-4xl" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-2 h-2 rounded-full bg-tertiary/20" style="box-shadow:0 0 10px #d8c3af;"></div>
+        <!-- Center revealed card -->
+        <div class="relative w-full aspect-[2/3] max-w-[160px] z-10">
+          <div class="absolute inset-0 bg-surface-container/80 backdrop-blur-2xl rounded-xl border border-tertiary shadow-[0_0_30px_rgba(255,191,0,0.3)] overflow-hidden flex flex-col">
+            <div class="flex-1 relative overflow-hidden bg-surface-bright/50 flex items-center justify-center">
+              <svg viewBox="0 0 100 130" class="w-full h-full p-4 opacity-60">
+                <circle cx="50" cy="50" r="30" fill="none" stroke="#d8c3af" stroke-width="1"/>
+                <path d="M50,20 L50,80 M20,50 L80,50" stroke="#d8c3af" stroke-width="0.5" opacity="0.5"/>
+                <circle cx="50" cy="50" r="8" fill="rgba(216,195,175,0.3)" stroke="#d8c3af" stroke-width="0.5"/>
+              </svg>
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-60"></div>
+            </div>
+            <div class="p-3 text-center bg-tertiary-container/40">
+              <h3 class="text-tertiary text-sm tracking-widest uppercase font-label-lg">High Priestess</h3>
+            </div>
+          </div>
+        </div>
+        <div class="w-2 h-2 rounded-full bg-tertiary/20" style="box-shadow:0 0 10px #d8c3af;"></div>
+        <div class="w-2 h-2 rounded-full bg-tertiary/20" style="box-shadow:0 0 10px #d8c3af;"></div>
+        <div class="w-2 h-2 rounded-full bg-tertiary/20" style="box-shadow:0 0 10px #d8c3af;"></div>
+        <div class="w-2 h-2 rounded-full bg-tertiary/20" style="box-shadow:0 0 10px #d8c3af;"></div>
+      </div>
+      <div class="mt-12 flex justify-center">
+        <button onclick="pushAndShow('bilge-asena-prophecy')" class="bg-tertiary text-on-tertiary px-8 py-4 rounded-full font-label-lg flex items-center gap-3 shadow-[0_0_20px_rgba(216,195,175,0.4)] hover:bg-tertiary-fixed-dim active:scale-95 transition-transform">
+          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">fireplace</span>
+          REVEAL PROPHECY
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 5: kumalak — Kumalak Okuma Grid
+═══════════════════════════════════════════════ -->
+<div data-screen="kumalak" style="background:#0A0F24;">
+  <div class="pointer-events-none absolute inset-0 opacity-5 z-0" style="background-image:radial-gradient(rgba(212,175,55,0.1) 1px,transparent 1px);background-size:20px 20px;"></div>
+  <div class="pointer-events-none absolute inset-0 z-0" style="background:radial-gradient(circle at center,rgba(212,175,55,0.15) 0%,transparent 60%);"></div>
+  <div class="pointer-events-none absolute inset-0 z-10" style="background:radial-gradient(circle at center,transparent 30%,rgba(10,15,36,0.8) 100%);"></div>
+  <div class="relative z-20 flex flex-col" style="min-height:100vh;">
+    <header class="screen-header z-30" style="background:transparent;border-bottom:none;">
+      <button onclick="goBack()" class="w-12 h-12 flex items-center justify-center text-tertiary hover:text-tertiary-fixed-dim active:scale-95">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0,'wght' 300;">close</span>
+      </button>
+      <h1 class="font-headline-md text-headline-md text-tertiary drop-shadow-[0_0_10px_rgba(216,195,175,0.5)]">Kumalak Reading</h1>
+      <div class="w-12 h-12"></div>
+    </header>
+    <main class="flex-grow flex flex-col items-center justify-center py-8 pb-nav px-5">
+      <div class="grid grid-cols-3 gap-4 w-full max-w-sm mx-auto">
+        <!-- 9 positions -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer transition-all hover:border-tertiary/50">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">L. Shoulder</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel gold-border-active w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer overflow-hidden relative">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <svg viewBox="0 0 80 100" class="w-full h-full p-3 opacity-70"><ellipse cx="40" cy="40" rx="25" ry="30" fill="none" stroke="#d8c3af" stroke-width="1.5"/><line x1="40" y1="10" x2="40" y2="70" stroke="#d8c3af" stroke-width="0.5" opacity="0.5"/><circle cx="40" cy="40" r="6" fill="rgba(216,195,175,0.3)" stroke="#d8c3af"/></svg>
+            </div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary tracking-widest uppercase drop-shadow-[0_0_5px_rgba(216,195,175,0.5)]">Head</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">R. Shoulder</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">L. Flank</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel gold-border-active w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer overflow-hidden relative">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <svg viewBox="0 0 80 100" class="w-full h-full p-3 opacity-70"><path d="M40,20 C20,30 20,70 40,80 C60,70 60,30 40,20" fill="none" stroke="#d8c3af" stroke-width="1.5"/><circle cx="40" cy="50" r="8" fill="rgba(211,190,235,0.3)" stroke="#d3beeb" stroke-width="1"/></svg>
+            </div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary tracking-widest uppercase drop-shadow-[0_0_5px_rgba(216,195,175,0.5)]">Heart</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">R. Flank</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">L. Foot</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">Navel</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <div class="glass-panel w-full aspect-[2/3] rounded-lg flex items-center justify-center cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-surface-container-highest shadow-inner"></div>
+          </div>
+          <span class="font-label-sm text-label-sm text-tertiary/60 tracking-widest uppercase">R. Foot</span>
+        </div>
+      </div>
+    </main>
+    <footer class="w-full flex justify-center pb-28 pt-4">
+      <button onclick="pushAndShow('bilge-asena-prophecy')" class="font-label-lg text-label-lg px-8 py-4 rounded-full shadow-[0_0_20px_-5px_rgba(255,191,0,0.5)] active:scale-95 transition-transform" style="background:#D4AF37;color:#0A0F24;">
+        View Synthesis
+      </button>
+    </footer>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 6: scapulimancy-summon — Kürek Kemiği Çağırma
+═══════════════════════════════════════════════ -->
+<div data-screen="scapulimancy-summon" style="background:#0e0e0f;">
+  <div class="pointer-events-none absolute inset-0 z-0 opacity-5" style="background-image:radial-gradient(#d8c3af 1px,transparent 1px);background-size:20px 20px;"></div>
+  <div class="pointer-events-none absolute inset-0 z-0" style="background:radial-gradient(circle at center,transparent 30%,#0e0e0f 100%);"></div>
+  <header class="absolute top-0 right-0 z-10 p-5 pt-6">
+    <button onclick="goBack()" class="flex items-center justify-center p-2 rounded-full glass-panel gold-border text-tertiary hover:gold-border-active active:border-tertiary/80 shadow-[0_0_15px_-5px_rgba(216,195,175,0.3)]">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </header>
+  <main class="relative z-10 flex flex-col items-center justify-center px-5 pb-12" style="min-height:100vh;">
+    <div class="relative w-64 h-64 flex items-center justify-center cursor-pointer group active:scale-95 transition-transform duration-500 ease-out" onclick="pushAndShow('scapulimancy-reveal')">
+      <div class="absolute inset-0 rounded-full opacity-0 group-active:opacity-100 transition-opacity duration-500 blur-2xl" style="background:#f5dfca;"></div>
+      <!-- Bone SVG representation -->
+      <svg viewBox="0 0 200 240" class="relative z-10 w-full h-full drop-shadow-[0_0_20px_rgba(216,195,175,0.1)] group-active:drop-shadow-[0_0_30px_rgba(245,223,202,0.4)] transition-all duration-500">
+        <g fill="none" stroke="#d8c3af" stroke-width="1.5">
+          <ellipse cx="100" cy="40" rx="28" ry="20" fill="rgba(216,195,175,0.08)" stroke-opacity="0.6"/>
+          <ellipse cx="100" cy="200" rx="28" ry="20" fill="rgba(216,195,175,0.08)" stroke-opacity="0.6"/>
+          <rect x="85" y="55" width="30" height="135" rx="6" fill="rgba(216,195,175,0.05)" stroke-opacity="0.4"/>
+          <path d="M85,80 Q70,90 72,105 Q74,120 85,115" stroke-opacity="0.3" stroke-width="1"/>
+          <path d="M115,80 Q130,90 128,105 Q126,120 115,115" stroke-opacity="0.3" stroke-width="1"/>
+          <line x1="85" y1="100" x2="115" y2="100" stroke-dasharray="3 4" stroke-opacity="0.2"/>
+          <line x1="88" y1="130" x2="112" y2="128" stroke-dasharray="2 5" stroke-opacity="0.15"/>
+        </g>
+      </svg>
+    </div>
+    <div class="mt-12 text-center max-w-sm">
+      <p class="font-headline-md text-headline-md text-tertiary tracking-wide opacity-90" style="font-family:'Playfair Display';">
+        Press and hold the bone<br/>to summon the fire.
+      </p>
+      <div class="w-16 h-px mx-auto mt-6" style="background:rgba(216,195,175,0.3);"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 7: scapulimancy-reveal — Kürek Kemiği Açıklama
+═══════════════════════════════════════════════ -->
+<div data-screen="scapulimancy-reveal" style="background:#131314;">
+  <!-- Ember particles -->
+  <div class="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+    <div class="absolute w-1.5 h-1.5 rounded-full bg-tertiary-fixed opacity-60" style="top:20%;left:15%;filter:blur(1px);"></div>
+    <div class="absolute w-1 h-1 rounded-full bg-tertiary opacity-40" style="top:60%;left:80%;filter:blur(2px);"></div>
+    <div class="absolute w-2 h-2 rounded-full bg-tertiary-fixed opacity-70" style="top:80%;left:30%;filter:blur(1px);"></div>
+    <div class="absolute w-1.5 h-1.5 rounded-full bg-tertiary opacity-50" style="top:30%;left:85%;filter:blur(1px);"></div>
+    <div class="absolute w-1 h-1 rounded-full bg-tertiary-fixed opacity-80" style="top:50%;left:20%;filter:blur(0.5px);"></div>
+  </div>
+  <div class="pointer-events-none absolute inset-0 z-40" style="background:radial-gradient(circle at center,transparent 10%,#0e0e0f 90%);"></div>
+  <header class="absolute top-0 left-0 w-full p-5 z-50 flex items-center">
+    <button onclick="goBack()" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-tertiary transition-colors">
+      <span class="material-symbols-outlined" style="font-size:24px;">arrow_back</span>
+    </button>
+  </header>
+  <main class="relative z-30 flex flex-col items-center justify-center w-full px-5 pb-8" style="min-height:100vh;">
+    <div class="relative w-[280px] h-[420px] flex items-center justify-center">
+      <div class="absolute inset-0 m-auto w-[180px] h-[280px] rounded-[100%] blur-[60px] opacity-90 mix-blend-screen z-10" style="background:#f5dfca;"></div>
+      <!-- Emperor card -->
+      <div class="absolute w-[240px] h-[380px] rounded-xl border border-tertiary/20 bg-surface-container overflow-hidden z-20 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(216,195,175,0.2)]">
+        <div class="w-full h-full flex items-center justify-center p-6">
+          <svg viewBox="0 0 120 160" class="w-full h-full opacity-40">
+            <rect x="10" y="10" width="100" height="140" rx="6" fill="none" stroke="#d8c3af" stroke-width="1"/>
+            <circle cx="60" cy="55" r="25" fill="none" stroke="#d8c3af" stroke-width="1.5"/>
+            <path d="M35,55 L85,55 M60,30 L60,80" stroke="#d8c3af" stroke-width="0.5" opacity="0.6"/>
+            <path d="M45,100 L75,100 M50,110 L70,110 M40,120 L80,120" stroke="#d8c3af" stroke-width="0.5" opacity="0.4"/>
+            <polygon points="60,25 65,38 78,38 68,46 72,59 60,51 48,59 52,46 42,38 55,38" fill="rgba(216,195,175,0.15)" stroke="#d8c3af" stroke-width="0.5"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Shattered bone halves -->
+      <div class="absolute left-[-20px] top-[-10px] w-[120px] h-[440px] z-30 drop-shadow-[15px_0_20px_rgba(14,14,15,0.9)] -rotate-[8deg]">
+        <svg viewBox="0 0 120 440" class="w-full h-full" style="clip-path:polygon(0 0,100% 0,85% 20%,95% 45%,75% 65%,90% 85%,70% 100%,0 100%)">
+          <rect width="120" height="440" fill="rgba(216,195,175,0.15)" stroke="#d8c3af" stroke-width="0.5"/>
+          <path d="M80,0 L90,80 L70,160 L85,240 L60,320 L80,400 L70,440" fill="none" stroke="rgba(139,0,0,0.4)" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="absolute right-[-20px] top-[10px] w-[120px] h-[440px] z-30 drop-shadow-[-15px_0_20px_rgba(14,14,15,0.9)] rotate-[6deg]">
+        <svg viewBox="0 0 120 440" class="w-full h-full" style="clip-path:polygon(30% 0,100% 0,100% 100%,10% 100%,25% 80%,10% 60%,35% 40%,15% 20%)">
+          <rect width="120" height="440" fill="rgba(216,195,175,0.12)" stroke="#d8c3af" stroke-width="0.5"/>
+          <path d="M40,0 L30,80 L50,160 L35,240 L60,320 L40,400 L50,440" fill="none" stroke="rgba(139,0,0,0.3)" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="mt-8 text-center max-w-[300px] z-40 relative">
+      <h1 class="font-display-lg text-display-lg text-tertiary-fixed tracking-wide drop-shadow-[0_2px_10px_rgba(216,195,175,0.3)]">The Emperor</h1>
+      <p class="mt-2 font-body-md text-on-surface-variant">Revealed from within the shattered bone.</p>
+      <div class="w-full h-px mt-4" style="background:linear-gradient(to right,transparent,rgba(216,195,175,0.2),transparent);"></div>
+      <button onclick="pushAndShow('heritage-report')" class="mt-6 bg-tertiary text-on-tertiary px-8 py-3 rounded-full font-label-lg active:scale-95 transition-transform shadow-[0_0_20px_rgba(216,195,175,0.3)]">
+        View Heritage Report
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 8: bilge-asena-chat — Oracle Chat
+═══════════════════════════════════════════════ -->
+<div data-screen="bilge-asena-chat" style="background:linear-gradient(to bottom,#131314,#131314);">
+  <div class="fixed-overlay pointer-events-none absolute inset-0 vignette z-10"></div>
+  <header class="screen-header z-50 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+    <button onclick="goBack()" class="text-tertiary hover:text-tertiary-fixed-dim active:scale-95 flex items-center justify-center p-2 rounded-full transition-colors">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">arrow_back</span>
+    </button>
+    <div class="flex flex-col items-center">
+      <h1 class="font-headline-md text-headline-md text-tertiary drop-shadow-[0_0_10px_rgba(216,195,175,0.5)]">Bilge Asena</h1>
+      <span class="font-label-sm text-label-sm text-tertiary/70 italic">typing...</span>
+    </div>
+    <button onclick="pushAndShow('bilge-asena-prophecy')" class="text-tertiary hover:text-tertiary-fixed-dim active:scale-95 flex items-center justify-center p-2 rounded-full transition-colors">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0;">data_exploration</span>
+    </button>
+  </header>
+  <main class="overflow-y-auto px-5 pt-6 flex flex-col gap-6 z-0" style="padding-bottom:140px;min-height:calc(100vh - 64px);">
+    <div class="flex justify-center w-full">
+      <span class="font-label-sm text-label-sm text-on-surface-variant/50 bg-surface-container/30 px-3 py-1 rounded-full border border-tertiary/10">The Witching Hour</span>
+    </div>
+    <div class="flex justify-end w-full pl-8">
+      <div class="glass-panel p-4 rounded-xl rounded-tr-none max-w-[85%] shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+        <p class="font-body-md text-on-surface">What does the path ahead hold for me regarding the upcoming equinox ritual?</p>
+      </div>
+    </div>
+    <div class="flex justify-start w-full pr-4">
+      <div class="flex items-end gap-2 max-w-[90%]">
+        <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center border border-tertiary/40 shrink-0 mb-1">
+          <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings:'FILL' 1;">pets</span>
+        </div>
+        <div class="p-4 rounded-xl rounded-tl-none border border-tertiary/20 shadow-[0_8px_30px_rgba(0,0,0,0.6)] relative overflow-hidden" style="background:rgba(26,23,20,0.9);">
+          <p class="font-body-md text-on-surface-variant leading-relaxed relative z-10">
+            The winds shift beneath the <span class="font-headline-md text-tertiary" style="font-size:1.1em;">Tengri</span> sky. I sense a deep rooted <span class="font-headline-md text-tertiary" style="font-size:1.1em;">Transformation</span> waiting at the threshold.<br/><br/>
+            You must gather the ashes of your previous intentions. Do not fear the dark; it is merely the womb of the next cycle.
+          </p>
+          <div class="flex gap-2 mt-3 relative z-10 overflow-x-auto pb-1">
+            <button onclick="pushAndShow('bilge-asena-prophecy')" class="font-label-sm text-label-sm px-3 py-1.5 rounded border border-tertiary/40 text-tertiary bg-surface/40 active:bg-tertiary/10 whitespace-nowrap">Clarify Transformation</button>
+            <button class="font-label-sm text-label-sm px-3 py-1.5 rounded border border-tertiary/40 text-tertiary bg-surface/40 active:bg-tertiary/10 whitespace-nowrap">Show me the runes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-start w-full pl-10 pr-4 mt-2">
+      <div class="glass-panel px-4 py-3 rounded-xl rounded-tl-none flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary/60 text-sm" style="animation:pulse 1.5s ease-in-out infinite;">change_history</span>
+        <span class="material-symbols-outlined text-tertiary/60 text-sm" style="animation:pulse 1.5s ease-in-out 0.2s infinite;">horizontal_rule</span>
+        <span class="material-symbols-outlined text-tertiary/60 text-sm" style="animation:pulse 1.5s ease-in-out 0.4s infinite;">crop_square</span>
+      </div>
+    </div>
+  </main>
+  <div class="absolute bottom-0 left-0 right-0 z-40 pb-4 px-4 pt-2 border-t border-tertiary/20" style="background:rgba(42,42,43,0.9);backdrop-filter:blur(20px);">
+    <div class="flex items-center gap-2 h-16">
+      <button class="text-tertiary p-2 rounded-full active:bg-surface-variant transition-colors flex-shrink-0">
+        <span class="material-symbols-outlined">add_circle</span>
+      </button>
+      <div class="flex-1 relative">
+        <input class="w-full bg-surface-dim border border-tertiary/30 rounded-full py-3 pl-4 pr-12 font-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-tertiary" placeholder="Write your intention..." type="text"/>
+        <button class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-tertiary flex items-center justify-center shadow-[0_0_10px_rgba(216,195,175,0.4)]">
+          <span class="material-symbols-outlined text-surface-container-lowest text-sm" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 9: bilge-asena-prophecy — Kehane Odası
+═══════════════════════════════════════════════ -->
+<div data-screen="bilge-asena-prophecy" style="background:linear-gradient(to bottom,rgba(82,66,103,0.2),#131314);">
+  <div class="pointer-events-none absolute inset-0 noise-overlay z-0"></div>
+  <header class="screen-header z-10" style="background:transparent;border-bottom:none;">
+    <button onclick="goBack()" class="w-12 h-12 flex items-center justify-center rounded-full glass-panel gold-border text-tertiary active:gold-border-active transition-all">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <div class="flex flex-col items-center">
+      <h1 class="font-headline-md text-headline-md text-tertiary">Prophecy Room</h1>
+      <span class="font-label-sm text-on-surface-variant uppercase tracking-widest">Sacred Connection</span>
+    </div>
+    <div class="w-12 h-12"></div>
+  </header>
+  <main class="relative z-10 flex flex-col overflow-y-auto px-5 py-8 gap-8 pb-28" style="min-height:calc(100vh - 64px);">
+    <div class="flex flex-col items-center justify-center gap-4">
+      <div class="relative w-32 h-32 rounded-full glass-panel gold-border p-1 flex items-center justify-center shadow-[0_0_30px_-5px_rgba(216,195,175,0.4)]">
+        <div class="w-full h-full rounded-full flex items-center justify-center" style="background:radial-gradient(circle,rgba(82,66,103,0.6),rgba(10,14,23,0.8));">
+          <span class="material-symbols-outlined text-secondary" style="font-size:48px;font-variation-settings:'FILL' 1;">pets</span>
+        </div>
+      </div>
+      <div class="text-center">
+        <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-tertiary">Bilge Asena</h2>
+        <p class="font-label-lg text-on-surface-variant">The Oracle is listening...</p>
+      </div>
+    </div>
+    <div class="flex flex-col gap-6">
+      <div class="flex gap-4 max-w-[90%] self-start items-end">
+        <div class="w-8 h-8 rounded-full glass-panel flex-shrink-0 overflow-hidden border border-tertiary/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings:'FILL' 1;">pets</span>
+        </div>
+        <div class="glass-panel gold-border rounded-2xl rounded-bl-sm p-4">
+          <p class="font-body-lg text-on-surface leading-relaxed">
+            Speak your intention, seeker. The weave of fate awaits. The winds from the steppes carry whispers of paths untrodden. What guidance do you seek from the ancient ones today?
+          </p>
+        </div>
+      </div>
+      <div class="flex gap-4 max-w-[85%] self-end items-end mt-4">
+        <div class="glass-panel border border-primary/20 rounded-2xl rounded-br-sm p-4 bg-primary-container/40">
+          <p class="font-body-md text-on-surface opacity-80 italic">(Your whispers will weave here...)</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="absolute bottom-0 left-0 right-0 z-20 p-5 pb-8" style="background:linear-gradient(to top,#131314,rgba(19,19,20,0.9),transparent);">
+    <div class="glass-panel gold-border rounded-xl p-2 flex items-center gap-2 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.5)]">
+      <button class="w-12 h-12 flex items-center justify-center rounded-lg text-tertiary active:bg-surface-variant/50 transition-colors">
+        <span class="material-symbols-outlined text-2xl">graphic_eq</span>
+      </button>
+      <input class="flex-1 bg-transparent border-none text-on-surface font-body-md placeholder:text-on-surface-variant/50 focus:ring-0 px-2" placeholder="Whisper your intentions into the void..." type="text"/>
+      <button class="w-12 h-12 flex items-center justify-center rounded-lg bg-tertiary/10 text-tertiary gold-border active:gold-border-active transition-all">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">mic</span>
+      </button>
+    </div>
+    <div class="flex justify-center mt-3 opacity-40">
+      <span class="font-headline-md tracking-[0.5em] text-tertiary text-sm">Ⰰ Ⰱ Ⰲ Ⰳ</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 10: marketplace — Ritual Marketplace
+═══════════════════════════════════════════════ -->
+<div data-screen="marketplace">
+  <div class="pointer-events-none absolute inset-0 z-0" style="background:radial-gradient(circle,transparent 50%,rgba(19,19,20,0.9) 150%);"></div>
+  <div class="flex flex-col" style="min-height:100vh;">
+    <header class="px-5 pt-8 pb-4 sticky top-0 z-10 border-b border-antique-gold/10" style="background:rgba(19,19,20,0.8);backdrop-filter:blur(12px);">
+      <div class="flex items-center justify-between mb-6">
+        <button class="w-12 h-12 flex items-center justify-center rounded-full glass-panel text-on-surface">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <button class="w-12 h-12 flex items-center justify-center rounded-full glass-panel text-on-surface relative">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <span class="absolute top-2 right-2 w-2 h-2 rounded-full shadow-[0_0_8px_rgba(255,191,0,0.8)]" style="background:#FFBF00;"></span>
+        </button>
+      </div>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Ritual Marketplace</h1>
+      <p class="font-body-md text-on-surface-variant mt-2">Sacred offerings and mystical artifacts.</p>
+    </header>
+    <main class="flex-1 px-5 py-6 flex flex-col gap-8 pb-nav">
+      <div class="flex gap-2 overflow-x-auto pb-2">
+        <button class="shrink-0 px-4 py-2 rounded font-label-lg shadow-[0_0_15px_-5px_rgba(255,191,0,0.6)] border" style="background:#FFBF00;color:#131314;border-color:#FFBF00;">All Offerings</button>
+        <button class="shrink-0 px-4 py-2 rounded glass-panel text-on-surface font-label-lg">Reports</button>
+        <button class="shrink-0 px-4 py-2 rounded glass-panel text-on-surface font-label-lg">Sessions</button>
+        <button class="shrink-0 px-4 py-2 rounded glass-panel text-on-surface font-label-lg">Tokens</button>
+      </div>
+      <section>
+        <h2 class="font-headline-md text-tertiary mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-tertiary text-sm">auto_awesome</span>Featured Relics
+        </h2>
+        <div class="grid grid-cols-2 gap-4">
+          <article class="glass-panel rounded-lg overflow-hidden flex flex-col cursor-pointer" onclick="pushAndShow('heritage-report')">
+            <div class="aspect-[3/4] relative bg-surface-container-high flex items-center justify-center">
+              <svg viewBox="0 0 100 140" class="w-3/4 h-3/4 opacity-30"><rect x="10" y="10" width="80" height="120" rx="4" fill="none" stroke="#d8c3af" stroke-width="1"/><path d="M20,35 H80 M20,50 H80 M20,65 H65 M20,80 H70 M20,95 H60" stroke="#d8c3af" stroke-width="0.5" opacity="0.5"/></svg>
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest to-transparent opacity-60"></div>
+              <span class="material-symbols-outlined text-tertiary absolute bottom-2 left-2">description</span>
+            </div>
+            <div class="p-2 flex-1 flex flex-col justify-between">
+              <div><h3 class="font-label-lg text-on-surface">Character Report</h3>
+              <p class="font-label-sm text-on-surface-variant mt-1">Ancient Destiny Path</p></div>
+              <div class="mt-3 flex items-center justify-between">
+                <span class="font-label-lg text-tertiary">3 Kut</span>
+                <button class="w-8 h-8 rounded-full border border-antique-gold/30 flex items-center justify-center text-on-surface"><span class="material-symbols-outlined text-lg">add</span></button>
+              </div>
+            </div>
+          </article>
+          <article class="glass-panel rounded-lg overflow-hidden flex flex-col cursor-pointer" onclick="pushAndShow('lower-world')">
+            <div class="aspect-[3/4] relative bg-surface-container-lowest flex items-center justify-center">
+              <svg viewBox="0 0 100 140" class="w-3/4 h-3/4 opacity-20"><circle cx="50" cy="70" r="35" fill="none" stroke="#d8c3af" stroke-width="1"/><circle cx="50" cy="70" r="20" fill="none" stroke="#d8c3af" stroke-width="0.5"/><circle cx="50" cy="70" r="5" fill="rgba(216,195,175,0.2)"/></svg>
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent opacity-80"></div>
+              <span class="material-symbols-outlined absolute bottom-2 left-2 opacity-70" style="color:#e5e2e2;">visibility_off</span>
+            </div>
+            <div class="p-2 flex-1 flex flex-col justify-between">
+              <div><h3 class="font-label-lg text-on-surface">Shadow Work</h3>
+              <p class="font-label-sm text-on-surface-variant mt-1">Deep Inner Journey</p></div>
+              <div class="mt-3 flex items-center justify-between">
+                <span class="font-label-lg text-tertiary">5 Kut</span>
+                <button class="w-8 h-8 rounded-full border border-antique-gold/30 flex items-center justify-center text-on-surface"><span class="material-symbols-outlined text-lg">add</span></button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section>
+        <h2 class="font-headline-md text-tertiary mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-tertiary text-sm">toll</span>Kut Kredileri
+        </h2>
+        <div class="flex flex-col gap-2">
+          <div class="glass-panel rounded flex items-center p-4 cursor-pointer">
+            <div class="w-12 h-12 shrink-0 rounded bg-surface-container flex items-center justify-center relative overflow-hidden">
+              <div class="absolute inset-0 blur-md" style="background:rgba(255,191,0,0.1);"></div>
+              <span class="material-symbols-outlined relative z-10" style="color:#FFBF00;">generating_tokens</span>
+            </div>
+            <div class="ml-4 flex-1"><h3 class="font-label-lg text-on-surface">3 Kumalak Stones</h3><p class="font-label-sm text-on-surface-variant mt-1">Basic divination credits</p></div>
+            <span class="font-label-lg text-tertiary">$9.99</span>
+          </div>
+          <div class="glass-panel rounded flex items-center p-4 cursor-pointer relative overflow-hidden">
+            <div class="absolute inset-0" style="background:linear-gradient(to right,rgba(255,191,0,0.05),transparent);"></div>
+            <div class="w-12 h-12 shrink-0 rounded bg-surface-container flex items-center justify-center relative overflow-hidden">
+              <div class="absolute inset-0 blur-md" style="background:rgba(255,191,0,0.2);"></div>
+              <span class="material-symbols-outlined relative z-10" style="color:#FFBF00;">local_fire_department</span>
+            </div>
+            <div class="ml-4 flex-1 relative z-10"><h3 class="font-label-lg text-on-surface">10 Kumalak Stones</h3><p class="font-label-sm text-on-surface-variant mt-1">Imperial nomad tier</p></div>
+            <div class="text-right relative z-10"><span class="font-label-lg text-tertiary block">$24.99</span><span class="font-label-sm block" style="color:#FFBF00;">Save 15%</span></div>
+          </div>
+        </div>
+      </section>
+      <div class="glass-panel rounded-lg p-4 bg-error-container/10" style="border-color:rgba(255,180,171,0.3);">
+        <div class="flex items-start gap-2">
+          <span class="material-symbols-outlined text-error shrink-0">warning</span>
+          <p class="font-label-sm text-on-surface leading-relaxed"><span class="text-error font-medium">Sacred Warning:</span> Readings and artifacts are for spiritual guidance. The future remains fluid like the wind on the steppes.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 11: full-moon — Dolunay Niyet Çemberi
+═══════════════════════════════════════════════ -->
+<div data-screen="full-moon" style="background:#131314;">
+  <div class="pointer-events-none absolute inset-0 z-0" style="background:radial-gradient(ellipse at center,transparent 0%,#000 100%);opacity:0.8;"></div>
+  <div class="pointer-events-none absolute inset-0 opacity-5 z-0" style="background-image:radial-gradient(rgba(216,195,175,0.1) 1px,transparent 1px);background-size:20px 20px;"></div>
+  <header class="screen-header z-50 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+    <button onclick="goBack()" class="text-on-surface-variant hover:text-tertiary-fixed-dim active:scale-95 transition-colors">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <h1 class="font-headline-lg text-headline-lg text-tertiary drop-shadow-[0_0_10px_rgba(216,195,175,0.5)]">Tüngür Oracle</h1>
+    <button class="text-on-surface-variant hover:text-tertiary-fixed-dim active:scale-95 transition-colors">
+      <span class="material-symbols-outlined">account_circle</span>
+    </button>
+  </header>
+  <main class="relative flex flex-col items-center justify-center pt-6 pb-nav px-5 overflow-y-auto z-10" style="min-height:calc(100vh - 64px);">
+    <div class="absolute top-6 left-0 right-0 text-center z-10">
+      <h2 class="font-display-lg text-display-lg text-tertiary tracking-widest" style="text-shadow:0 0 10px rgba(216,195,175,0.5);">Dolunay</h2>
+      <p class="font-label-lg text-label-lg text-on-surface-variant mt-1 opacity-80 uppercase tracking-widest">Full Moon Intention Circle</p>
+    </div>
+    <div class="relative w-72 h-72 flex items-center justify-center mt-24">
+      <div class="absolute w-24 h-24 rounded-full flex items-center justify-center z-20" style="background:radial-gradient(circle,rgba(255,191,0,0.6) 0%,rgba(255,191,0,0) 70%);">
+        <span class="material-symbols-outlined" style="font-size:48px;color:#FFBF00;filter:drop-shadow(0 0 15px rgba(255,191,0,1));">local_fire_department</span>
+      </div>
+      <!-- Circle avatars -->
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="box-shadow:0 0 15px -5px rgba(255,191,0,0.8);border-color:rgba(212,175,55,0.8);">
+        <span class="material-symbols-outlined text-tertiary">cruelty_free</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="top:14%;right:14%;">
+        <span class="material-symbols-outlined text-tertiary opacity-60">pest_control_rodent</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="top:50%;right:0;transform:translate(50%,-50%);">
+        <span class="material-symbols-outlined text-tertiary opacity-60">flutter_dash</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="bottom:14%;right:14%;">
+        <span class="material-symbols-outlined text-tertiary opacity-60">pets</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="bottom:0;left:50%;transform:translate(-50%,50%);">
+        <span class="material-symbols-outlined text-tertiary opacity-60">bug_report</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="bottom:14%;left:14%;">
+        <span class="material-symbols-outlined text-tertiary opacity-60">visibility</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="top:50%;left:0;transform:translate(-50%,-50%);">
+        <span class="material-symbols-outlined text-tertiary opacity-60">cruelty_free</span>
+      </div>
+      <div class="absolute glass-panel w-12 h-12 rounded-full flex items-center justify-center z-10" style="top:14%;left:14%;">
+        <span class="material-symbols-outlined text-tertiary opacity-60">pets</span>
+      </div>
+      <svg class="absolute inset-0 w-full h-full z-0 opacity-40 pointer-events-none" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="35" fill="none" stroke="#D4AF37" stroke-dasharray="2 2" stroke-width="0.5"/>
+        <circle cx="50" cy="50" r="45" fill="none" stroke="#D4AF37" stroke-dasharray="1 3" stroke-width="0.5"/>
+      </svg>
+    </div>
+    <div class="mt-16 w-full max-w-sm">
+      <div class="glass-panel rounded-xl p-4">
+        <p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">Set Your Intention</p>
+        <textarea class="w-full bg-transparent border-none text-on-surface font-body-md placeholder:text-on-surface-variant/40 focus:ring-0 resize-none" rows="3" placeholder="Under this full moon, I intend to..."></textarea>
+      </div>
+      <button onclick="pushAndShow('bilge-asena-chat')" class="w-full mt-4 py-3 rounded-full font-label-lg text-label-lg active:scale-95 transition-transform" style="background:#D4AF37;color:#0A0F24;box-shadow:0 0 20px rgba(255,191,0,0.4);">
+        Whisper to the Moon
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 12: heritage-report — Tılsım Raporu
+═══════════════════════════════════════════════ -->
+<div data-screen="heritage-report">
+  <!-- Orhun borders -->
+  <div class="fixed left-0 top-0 bottom-0 w-6 flex flex-col justify-between py-8 pointer-events-none z-0 text-tertiary/20 text-xl font-serif">
+    <span>𐰀</span><span>𐰉</span><span>𐰲</span><span>𐰑</span><span>𐰅</span><span>𐰍</span>
+  </div>
+  <div class="fixed right-0 top-0 bottom-0 w-6 flex flex-col justify-between py-8 pointer-events-none z-0 text-tertiary/20 text-xl font-serif">
+    <span>𐰞</span><span>𐰢</span><span>𐰤</span><span>𐰭</span><span>𐰯</span><span>𐰼</span>
+  </div>
+  <header class="screen-header z-40 sticky top-0 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+    <button onclick="goBack()" class="text-on-surface-variant hover:text-tertiary-fixed-dim active:scale-95 transition-colors">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">arrow_back</span>
+    </button>
+    <div class="font-headline-lg text-headline-lg text-tertiary drop-shadow-[0_0_10px_rgba(216,195,175,0.5)]">Tüngür Oracle</div>
+    <button class="text-on-surface-variant hover:text-tertiary-fixed-dim active:scale-95 transition-colors">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">account_circle</span>
+    </button>
+  </header>
+  <main class="flex-1 flex flex-col w-full max-w-[800px] mx-auto z-10 pb-nav">
+    <!-- Talisman Loom -->
+    <section class="relative w-full aspect-square flex items-center justify-center p-6 mb-8 shadow-inner border-b border-tertiary/30 overflow-hidden" style="background:#1b2a47;">
+      <div class="absolute inset-0 opacity-10 mix-blend-screen pointer-events-none" style="background:radial-gradient(circle,rgba(212,175,55,0.2),transparent 70%);"></div>
+      <div class="relative z-10 w-64 h-64 rounded-full border border-tertiary/40 flex items-center justify-center shadow-[0_0_30px_rgba(255,191,0,0.2)]">
+        <svg class="absolute w-full h-full text-tertiary/50" viewBox="0 0 100 100" style="animation:spin 20s linear infinite;">
+          <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-dasharray="2 4" stroke-width="0.5"/>
+        </svg>
+        <svg viewBox="0 0 120 120" class="w-48 h-48 opacity-50">
+          <polygon points="60,5 115,95 5,95" fill="none" stroke="#d8c3af" stroke-width="1"/>
+          <polygon points="60,115 5,25 115,25" fill="none" stroke="#d8c3af" stroke-width="1"/>
+          <circle cx="60" cy="60" r="20" fill="none" stroke="#d8c3af" stroke-width="0.5"/>
+          <circle cx="60" cy="60" r="5" fill="rgba(216,195,175,0.3)"/>
+        </svg>
+        <div class="absolute inset-0 rounded-full mix-blend-color-dodge" style="background:radial-gradient(circle at center,rgba(255,191,0,0.3) 0%,transparent 60%);"></div>
+      </div>
+      <div class="absolute bottom-4 left-4 glass-panel px-4 py-2 rounded-lg flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full" style="background:#FFBF00;animation:pulse 2s ease-in-out infinite;"></span>
+        <span class="font-label-sm text-label-sm text-tertiary">Weaving Talisman...</span>
+      </div>
+    </section>
+    <!-- Parchment Manuscript -->
+    <section class="px-5 mb-12">
+      <div class="parchment-bg rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] overflow-hidden relative border border-tertiary/30">
+        <div class="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.4)] pointer-events-none z-10"></div>
+        <div class="p-6 relative z-20 text-on-tertiary-fixed" style="color:#3b2e20;">
+          <h2 class="font-display-lg text-display-lg text-center mb-8" style="color:#3b2e20;">The Heritage Reading</h2>
+          <div class="mb-6">
+            <div class="flex items-center justify-center gap-4 mb-4">
+              <span class="material-symbols-outlined text-2xl" style="color:#534435;">star_rate</span>
+              <h3 class="font-headline-lg text-headline-lg text-center" style="color:#3b2e20;">Inner Fire</h3>
+              <span class="material-symbols-outlined text-2xl" style="color:#534435;">star_rate</span>
+            </div>
+            <p class="font-body-md text-body-md leading-relaxed text-center max-w-2xl mx-auto" style="color:#534435;">The embers of Od burn brightly within your spirit. The patterns woven reveal a resilience forged in ancestral trials. You possess a quiet strength that manifests most potently when faced with sudden winds.</p>
+          </div>
+          <div class="flex justify-center items-center py-4 opacity-60">
+            <div class="w-16 h-px" style="background:rgba(59,46,32,0.3);"></div>
+            <span class="material-symbols-outlined mx-2" style="color:#534435;">local_fire_department</span>
+            <div class="w-16 h-px" style="background:rgba(59,46,32,0.3);"></div>
+          </div>
+          <div class="mb-6">
+            <div class="flex items-center justify-center gap-4 mb-4">
+              <span class="material-symbols-outlined text-2xl" style="color:#534435;">star_rate</span>
+              <h3 class="font-headline-lg text-headline-lg text-center" style="color:#3b2e20;">Ancestral Echoes</h3>
+              <span class="material-symbols-outlined text-2xl" style="color:#534435;">star_rate</span>
+            </div>
+            <p class="font-body-md text-body-md leading-relaxed text-center max-w-2xl mx-auto" style="color:#534435;">The Temür roots hold firm. Voices from the steppe speak of caution in your current ventures. Listen to the silence between breaths; there lies the guidance you seek.</p>
+          </div>
+          <div class="mt-8 flex justify-center">
+            <button onclick="pushAndShow('talisman-reveal')" class="font-label-lg text-label-lg px-8 py-4 rounded border border-transparent flex items-center gap-2 active:scale-95 transition-transform" style="background:#D4AF37;color:#1b2a47;box-shadow:0 0 15px -5px rgba(255,191,0,0.6);">
+              <span class="material-symbols-outlined">auto_awesome</span>
+              View Talisman Reveal
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 13: talisman-reveal — Pars Zodiac Reveal
+═══════════════════════════════════════════════ -->
+<div data-screen="talisman-reveal">
+  <header class="screen-header sticky top-0 z-50 shadow-[0_1px_0_rgba(42,42,43,0.5)]">
+    <button onclick="goBack()" aria-label="Go back" class="w-11 h-11 flex items-center justify-center rounded-full text-tertiary active:bg-surface-container transition-colors">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <span class="font-label-sm text-on-surface-variant uppercase tracking-[0.2em]">Reveal</span>
+    <div class="w-11"></div>
+  </header>
+  <main class="w-full flex flex-col items-center px-5 py-8 pb-nav" style="min-height:calc(100vh - 64px);">
+    <div class="mb-6 opacity-80 text-center">
+      <p class="font-label-sm text-tertiary tracking-[0.2em] mb-1">COSMIC ALIGNMENT</p>
+      <p class="font-headline-md text-on-surface">C = (Y-3) mod 12</p>
+    </div>
+    <div class="w-full relative rounded-2xl overflow-hidden border border-tertiary/30 bg-surface-container/40 backdrop-blur-xl p-1 mb-8 shadow-[0_0_30px_rgba(216,195,175,0.05)]">
+      <div class="absolute inset-0 bg-gradient-to-b from-tertiary/5 to-transparent pointer-events-none"></div>
+      <div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden border border-tertiary/10 bg-surface-container-lowest flex items-center justify-center">
+        <!-- Talisman SVG -->
+        <svg viewBox="0 0 200 260" class="w-full h-full p-8 opacity-60">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#d8c3af" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#d8c3af" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="130" rx="70" ry="90" fill="url(#glow)"/>
+          <!-- Snow leopard stylized -->
+          <path d="M100,40 C130,50 150,80 148,110 C146,140 130,160 100,170 C70,160 54,140 52,110 C50,80 70,50 100,40Z" fill="none" stroke="#d8c3af" stroke-width="1.5"/>
+          <path d="M80,70 Q100,55 120,70" fill="none" stroke="#d8c3af" stroke-width="1" opacity="0.6"/>
+          <circle cx="85" cy="90" r="4" fill="rgba(216,195,175,0.3)" stroke="#d8c3af" stroke-width="0.8"/>
+          <circle cx="115" cy="90" r="4" fill="rgba(216,195,175,0.3)" stroke="#d8c3af" stroke-width="0.8"/>
+          <path d="M90,105 Q100,112 110,105" fill="none" stroke="#d8c3af" stroke-width="1" opacity="0.7"/>
+          <path d="M75,65 L65,50 M80,62 L68,48" stroke="#d8c3af" stroke-width="0.8" opacity="0.5"/>
+          <path d="M125,65 L135,50 M120,62 L132,48" stroke="#d8c3af" stroke-width="0.8" opacity="0.5"/>
+          <path d="M60,130 C50,150 45,180 60,190 M140,130 C150,150 155,180 140,190" stroke="#d8c3af" stroke-width="1" opacity="0.4"/>
+          <circle cx="100" cy="130" r="50" fill="none" stroke="#d8c3af" stroke-width="0.3" stroke-dasharray="3 6" opacity="0.3"/>
+        </svg>
+        <div class="absolute inset-0 shadow-[inset_0_0_60px_rgba(19,19,20,0.8)] pointer-events-none"></div>
+      </div>
+    </div>
+    <div class="text-center px-2 mb-12">
+      <h1 class="font-display-lg text-display-lg text-tertiary mb-1">Bars</h1>
+      <h2 class="font-label-lg text-on-surface-variant uppercase tracking-widest mb-6">The Snow Leopard</h2>
+      <div class="w-12 h-px mx-auto mb-6" style="background:rgba(216,195,175,0.3);"></div>
+      <p class="font-body-lg text-on-surface leading-relaxed opacity-90">
+        The Snow Leopard archetype symbolizes profound power, solitary strength, and majestic grace. Those born under this sign are fiercely independent, walking their own path with quiet confidence. <span class="text-secondary font-medium">Lapis Lazuli</span> represents their spiritual depth, while <span class="text-error font-medium">Madder Red</span> signifies their vital energy and courage.
+      </p>
+    </div>
+    <div class="w-full pb-4">
+      <button onclick="showScreen('home')" class="w-full py-4 px-6 bg-tertiary text-on-tertiary rounded-full font-label-lg uppercase tracking-wider active:bg-tertiary-fixed-dim transition-colors shadow-[0_0_20px_rgba(216,195,175,0.2)]">
+        Embrace Your Archetype
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     GLOBAL BOTTOM NAV
+═══════════════════════════════════════════════ -->
+<nav id="global-nav" class="absolute bottom-0 left-0 right-0 z-50 flex justify-around items-end h-20 border-t border-outline-variant/30" style="background:rgba(14,14,15,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:0.75rem 0.75rem 0 0;">
+  <button class="nav-btn" data-nav="home" onclick="showScreen('home')">
+    <span class="material-symbols-outlined">local_fire_department</span>
+    <span>Ritüel</span>
+  </button>
+  <button class="nav-btn" data-nav="upper-world" onclick="showScreen('upper-world')">
+    <span class="material-symbols-outlined">stars</span>
+    <span>Gök</span>
+  </button>
+  <button class="nav-btn" data-nav="kumalak" onclick="showScreen('kumalak')">
+    <span class="material-symbols-outlined">grain</span>
+    <span>Kumalak</span>
+  </button>
+  <button class="nav-btn" data-nav="lower-world" onclick="showScreen('lower-world')">
+    <span class="material-symbols-outlined">dark_mode</span>
+    <span>Yer Altı</span>
+  </button>
+  <button class="nav-btn" data-nav="marketplace" onclick="showScreen('marketplace')">
+    <span class="material-symbols-outlined">storefront</span>
+    <span>Pazar</span>
+  </button>
+</nav>
+
+<!-- FAB: Bilge Asena -->
+<button id="fab-asena" onclick="pushAndShow('bilge-asena-chat')" class="absolute z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(211,190,235,0.4)] active:scale-95 transition-transform" style="bottom:88px;right:16px;background:#524267;border:1px solid rgba(211,190,235,0.3);">
+  <span class="material-symbols-outlined text-secondary" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+</button>
+
+</div><!-- #app -->
+
+<script>
+  var screenHistory = [];
+  var navScreens = ['home','upper-world','kumalak','lower-world','marketplace'];
+  var focusedScreens = ['scapulimancy-summon','scapulimancy-reveal','bilge-asena-chat','bilge-asena-prophecy','oracle-reading','full-moon','heritage-report','talisman-reveal'];
+
+  function showScreen(id) {
+    document.querySelectorAll('[data-screen]').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    var target = document.querySelector('[data-screen="' + id + '"]');
+    if (target) {
+      target.classList.add('active');
+      target.scrollTop = 0;
+    }
+    updateNavActive(id);
+    var nav = document.getElementById('global-nav');
+    var fab = document.getElementById('fab-asena');
+    if (focusedScreens.indexOf(id) !== -1 && navScreens.indexOf(id) === -1) {
+      nav.style.display = 'none';
+      fab.style.display = 'none';
+    } else {
+      nav.style.display = 'flex';
+      fab.style.display = 'flex';
+    }
+  }
+
+  function pushAndShow(id) {
+    var current = document.querySelector('[data-screen].active');
+    if (current) screenHistory.push(current.dataset.screen);
+    showScreen(id);
+  }
+
+  function goBack() {
+    if (screenHistory.length > 0) {
+      showScreen(screenHistory.pop());
+    } else {
+      showScreen('home');
+    }
+  }
+
+  function updateNavActive(id) {
+    document.querySelectorAll('[data-nav]').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    var activeBtn = document.querySelector('[data-nav="' + id + '"]');
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+
+  // Init
+  showScreen('home');
+</script>
+</body>
+</html>
